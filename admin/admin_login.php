@@ -87,10 +87,10 @@
     <h2>Admin Login</h2>
     <form action="admin_checker.php" method="post">
       <label for="name">Admin Name</label>
-      <input type="text" id="name" name="name" placeholder="Enter your name" required>
+      <input type="text" id="name" name="names" placeholder="Enter your name" required>
 
       <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Enter password" required>
+      <input type="password" id="password" name="passwords" placeholder="Enter password" required>
 
       <button type="submit">submit</button>
     </form>

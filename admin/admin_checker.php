@@ -1,7 +1,7 @@
 <?php
 include_once("dbname.php");
-$ADmin =$_POST["name"];
-$password =md5($_POST["password"]);
+$ADmin =$_POST["names"];
+$password =md5($_POST["passwords"]);
 
 $sql_checker="SELECT * FROM `adacc` WHERE `FullName`='$ADmin'";
 $sql_run=mysqli_query($conn,$sql_checker);
@@ -18,6 +18,12 @@ if($sql_res){
 else{
 echo 'password invalid';
 }
+
+
+
+
+
+
 }
 else{
     echo 'user does not exist';

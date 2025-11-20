@@ -82,6 +82,7 @@
       background: #ffffff;
       margin: 40px 40px 40px 50px;
       padding: 30px;
+      display: flex;
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       overflow-y: auto;
@@ -153,8 +154,10 @@
       font-weight: bold;
     }
     .containers {
-    width: 340px;
+    max-width: 340px;
+    /* display:flex; */
     padding: 25px;
+    margin-left:20px;
     background: #ffffff;
     border-radius: 18px;
     box-shadow: 0 10px 35px rgba(0,0,0,0.20);
@@ -163,28 +166,31 @@
 
 /* Title */
 .title {
-    font-size: 24px;
+        font-size: 14px;
     text-align: center;
-    font-weight: 700;
+    font-weight: 740;
     margin-bottom: 25px;
     color: #1a237e;
     text-transform: uppercase;
     letter-spacing: 1px;
+    font-family: system-ui;
+
 }
 
 /* Data Boxes */
 .data-box {
-    width: 100%;
+    width: 91%;
     padding: 14px;
     background: linear-gradient(135deg, #f7f9fc, #eef2f7);
     border-radius: 12px;
     border: 1px solid #d6d6d6;
-    font-size: 15px;
+    /* font-size: 15px; */
     margin-bottom: 14px;
     display: flex;
     align-items: center;
-    gap: 10px;
+    /* gap: 10px; */
     transition: 0.3s;
+
 }
 
 /* Hover Effect */
@@ -195,10 +201,18 @@
 
 /* Labels */
 .label {
-    font-weight: 600;
+    font-weight: 700;
     min-width: 95px;
     color: #1b1b1b;
 }
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    width: 100%;
+}
+
 
 /* Icons */
 .icon {
@@ -217,7 +231,7 @@
 <body>
   <!-- Left Part: Create Class Form -->
   <div class="left-section">
-    <h2>Create New Class</h2>
+    <h2 style="">Create New Class</h2>
     <form id="classForm" action="create_class_checker.php" method="post">
       <label for="classname">Course:</label>
       <input type="text" id="classname" name="classname" placeholder="e.g. Class 10A" required>
@@ -229,10 +243,10 @@
       <input type="text" id="section" name="section" placeholder="e.g. A / B / C" required>
 
       <label for="teacher">Semester/years</label>
-      <input type="text" id="semseter" name="semesters" placeholder="Enter semseter" required>
+      <input type="text" id="semseter" name="semesters" placeholder="Enter  semseter" required>
 
-      <label for="teacher">Teacher Name:</label>
-      <input type="text" id="teacher" name="teacher" placeholder="Enter teacher name" required>
+      <label for="teacher">Exam Date</label>
+      <input type="text" id="Exam" name="Dates" placeholder="Enter Examation date" required>
 
       <button type="submit">Create Class</button>
     </form>
@@ -242,57 +256,54 @@
 
   <!-- Right Part: View All Classes -->
   <div class="right-section">
+    <div class="grid-container">
+
   <?php
-  include_once("dbname.php");
-$sql = "SELECT * FROM `create_class`";
-$result =mysqli_query($conn,$sql);
+include_once("dbname.php");
 
-while($rows=mysqli_fetch_assoc($result)){
-   echo "<div class='containers'>
-    <div class='title'>Class Details</div>
+$sql = "SELECT * FROM `class_create`";
+$result = mysqli_query($conn, $sql);
 
-    <div class='data-box'>
-        <span class='icon'>📘</span>
-        <span class='label'>Course:</span>".$rows['']." 
-    </div>
-
-    <div class='data-box'>
-        <span class='icon'>📕</span>
-        <span class='label'>Subject:</span> ".$rows['']."
-    </div>
-
-    <div class='data-box'>
-        <span class='icon'>🏫</span>
-        <span class='label'>Section:</span>".$rows['']."
-    </div>
-
-    <div class='data-box'>
-        <span class='icon'>📅</span>
-        <span class='label'>Semester:</span>".$rows['']."
-    </div>
-
-    <div class='data-box'>
-        <span class='icon'>👨‍🏫</span>
-        <span class='label'>Teacher:</span> ".$rows['']."
-      </div>
-    </div>";
-    
-    
-
-
-
+if(!$result){
+    die("Query Failed: " . mysqli_error($conn));
 }
-  ?>
 
+while($rows = mysqli_fetch_assoc($result)){
+    echo "
+    <div class='containers'>
+        <div class='title'>Class Details</div>
 
+        <div class='data-box'>
+            <span class='icon'>📘</span>
+            <span class='label'>Course:</span> ".$rows['Course']."
+        </div>
 
+        <div class='data-box'>
+            <span class='icon'>📕</span>
+            <span class='label'>Subject:</span> ".$rows['Subject']."
+        </div>
 
-
-
-
-
-
-  </div>
+        <div class='data-box'>
+        <span class='icon'>🏫</span>
+        <span class='label'>Section:</span> ".$rows['Section']."
+        </div>
+        
+        <div class='data-box'>
+        <span class='icon'>📃</span>
+        <span class='label'>Semester:</span> ".$rows['Semester']."
+        </div>
+        <div class='data-box'>
+        <span class='icon'>📅</span>
+        <span class='label'>Date:</span> ".$rows['Exam Date']."
+        </div>
+        
+       <button>Upload Question</button>
+       
+    </div>";
+}
+?>
+</div>
+</div>
 
 
 </body>
