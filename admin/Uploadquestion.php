@@ -18,7 +18,7 @@
 
     .container {
       background: #fff;
-      width: 520px;
+      width: 50%;
       padding: 20px;
       border: 1px solid #ddd;
       border-radius: 8px;
@@ -71,7 +71,20 @@
     button:hover {
       background: #3d5bdd;
     }
-
+    .error-box {
+    margin: 15px 0;
+    padding: 12px 18px;
+    font-size: 14px;
+    color: #b00020;                
+    background: #ffe5e8;            
+    border-left: 4px solid #b00020; 
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+     display: none; 
+     text-align: start;                  
+    animation: fadeIn 0.5s ease-in-out;
+}
   </style>
 </head>
 <body>
@@ -79,38 +92,41 @@
   <div class="container">
     <h2>Upload Question</h2>
 
-    <form>
+    <form action="Uploadquestion_checker.php"  method="post">
 
       <label>Question:</label>
-      <textarea rows="3" placeholder="Enter question..." required></textarea>
+      <textarea rows="3" name="Question" placeholder="Enter question..." required></textarea>
 
       <div class="row">
         <div class="box">
           <label>Option A:</label>
-          <input type="text" placeholder="Option A" required>
+          <input type="text"  name="opt_1" placeholder="Option A" required>
         </div>
 
         <div class="box">
           <label>Option B:</label>
-          <input type="text" placeholder="Option B" required>
+          <input type="text"  name="opt_2" placeholder="Option B" required>
         </div>
       </div>
 
       <div class="row">
         <div class="box">
           <label>Option C:</label>
-          <input type="text" placeholder="Option C" required>
+          <input type="text"  name="opt_3" placeholder="Option C" required>
         </div>
 
         <div class="box">
           <label>Option D:</label>
-          <input type="text" placeholder="Option D" required>
+          <input type="text"  name="opt_4" placeholder="Option D" required>
         </div>
       </div>
+<input type="hidden" name="sss" value="<?php echo $_GET['classes']; ?>">
+
+
 
       <label>Correct Answer:</label>
-      <select required>
-        <option value="">Choose Answer</option>
+      <select name="Correct_op" required>
+        <option value="" >Choose Answer</option>
         <option>A</option>
         <option>B</option>
         <option>C</option>
@@ -120,7 +136,19 @@
       <button type="submit">Submit</button>
 
     </form>
+     <div id ="message" class="error-box"></div>
+
   </div>
 
 </body>
 </html>
+<script>
+  var n = window.location.href.split("=")[1];
+  console.log(n)
+  if(n!=undefined){
+  n = decodeURIComponent(n);
+  // alert(n);
+  document.getElementById("message").innerHTML = n;
+  document.getElementById("message").style.display = "block"; 
+  }
+  </script>

@@ -11,7 +11,6 @@ $sql_checkrun = mysqli_query($conn,$sql_checker);
 $sql_res = mysqli_num_rows($sql_checkrun);
 if($sql_res==0){    
     
-    
     if($N_password==$NC_password){
         $sql_checker="INSERT INTO `adacc`(`Sno`, `FullName`, `email`, `password`, `C_password`, `status`) 
 VALUES (NULL,'$fullname','$Eamil','$N_password','$NC_password','1')";
@@ -19,18 +18,23 @@ $sql_run= mysqli_query($conn,$sql_checker);
 if($sql_checker){
     echo 'insert sucessfully';
     header("Location: admin_login.php");
+
+      session_start();
+    $_SESSION["username"] = "$fullname";
 }
 
 
 }
 else{
-    echo 'users allready exist';
+    // password error
+    header("Location: account_create.php?error=Password does't match!");
+    
 }
 
 }
 else{
-    echo 'password error';
-    // header("Location: login.html?error=Email not found");
-    // exit();
+    //email error
+    header("Location: account_create.php?error= Already have an account");
+    
 }
 ?>

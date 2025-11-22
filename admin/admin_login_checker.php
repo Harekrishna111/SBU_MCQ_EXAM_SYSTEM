@@ -16,7 +16,8 @@ if($sql_res){
 }
 
 else{
-echo 'password invalid';
+    header("Location: admin_login.php?error=Password incorrect");
+    
 }
 
 
@@ -26,7 +27,8 @@ echo 'password invalid';
 
 }
 else{
-    echo 'user does not exist';
+    
+    header("Location: admin_login.php?error= User invalid");
 }
 
 

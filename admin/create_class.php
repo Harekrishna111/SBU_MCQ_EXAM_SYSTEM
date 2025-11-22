@@ -1,3 +1,7 @@
+
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,6 +15,7 @@
       background: linear-gradient(135deg, #74ABE2, #5563DE);
       margin: 0;
       padding: 0;
+      
       height: 100vh;
       color: #333;
     }
@@ -18,6 +23,9 @@
     /* Left Section */
     .left-section {
       flex: 1;
+      width: 50%;
+      position: relative;
+      left: 24%;
       background: #ffffff;
       margin: 40px 20px 40px 40px;
       padding: 30px;
@@ -36,6 +44,11 @@
       font-weight: 600;
       display: block;
       margin-top: 10px;
+    }
+    .Main_container{
+      width: 68%;
+      display:flex;
+      justify-content:center;
     }
 
     input {
@@ -82,7 +95,7 @@
       background: #ffffff;
       margin: 40px 40px 40px 50px;
       padding: 30px;
-      display: flex;
+      /* display: flex; */
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       overflow-y: auto;
@@ -212,6 +225,11 @@
     padding: 20px;
     width: 100%;
 }
+.ah{
+  text-decoration:none;
+  font-size:15px;
+  color: white;
+}
 
 
 /* Icons */
@@ -230,6 +248,7 @@
 
 <body>
   <!-- Left Part: Create Class Form -->
+   <div class ="Main_container">
   <div class="left-section">
     <h2 style="">Create New Class</h2>
     <form id="classForm" action="create_class_checker.php" method="post">
@@ -253,9 +272,12 @@
 
     <div class="message" id="msg"></div>
   </div>
+</div>
 
   <!-- Right Part: View All Classes -->
   <div class="right-section">
+    <h1 style="text-align:end; font-size: 16px;">hello</h1>
+    <div class="sub_right" style="display:flex;">
     <div class="grid-container">
 
   <?php
@@ -297,11 +319,12 @@ while($rows = mysqli_fetch_assoc($result)){
         <span class='label'>Date:</span> ".$rows['Exam Date']."
         </div>
         
-       <button>Upload Question</button>
+       <button><a class ='ah' href='uploadquestion.php?classes=".$rows['Sno']."'>Upload Question</a></button>
        
     </div>";
 }
 ?>
+</div>
 </div>
 </div>
 

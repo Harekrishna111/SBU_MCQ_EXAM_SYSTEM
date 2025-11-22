@@ -78,19 +78,36 @@
     }
 
     .link {
-      text-align: center;
+      text-align: end;
       margin-top: 20px;
+      font-size:12px;
     }
-
+    
     .link a {
-      color: #004aad;
+      color: #661c1cff;
       text-decoration: none;
       font-weight: 600;
     }
-
+    
     .link a:hover {
       text-decoration: underline;
+      color: #004aad;
+
     }
+        .error-box {
+    margin: 15px 0;
+    padding: 12px 18px;
+    font-size: 14px;
+    color: #b00020;                
+    background: #ffe5e8;            
+    border-left: 4px solid #b00020; 
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+     display: none; 
+     text-align: start;                  
+    animation: fadeIn 0.5s ease-in-out;
+}
   </style>
 </head>
 <body>
@@ -111,16 +128,30 @@
       <input type="password" id="confirm" name="confirm" placeholder="Confirm password" required>
 
       <button type="submit">Create Account</button>
+
     </form>
 
-    <div class="message" id="msg"></div>
+    <div id ="message" class="error-box"></div>
 
     <div class="link">
-      🔙 <a href="admin_checker.php">Go to admin login</a>
+      🔙 <a href="admin_login.php"> Admin login</a>
     </div>
-  </div>
   </form>
+</div>
 
 
 </body>
 </html>
+
+<script>
+  var n = window.location.href.split("=")[1];
+  console.log(n)
+  if(n!=undefined){
+  n = decodeURIComponent(n);
+  // alert(n);
+  document.getElementById("message").innerHTML = n;
+  document.getElementById("message").style.display = "block"; 
+  }
+  // document.getElementById("message").innerHTML="";
+</script>
+  
