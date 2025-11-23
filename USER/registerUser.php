@@ -141,7 +141,9 @@
         <select name="course" required>
             <option value="" disabled selected>Choose Course</option>
             <option>BCA</option>
+            <option>MCA</option>
             <option>B.Tech</option>
+            <option>Diploma</option>
             <option>BBA</option>
             <option>LLB</option>
             <option>D-Pharma</option>
@@ -177,7 +179,7 @@
         <button type="submit">Register</button>
        <div id ="message" class="error-box"></div>
 
-        <p>Already registered? <a href="login.html">Login here</a></p>
+        <p>Already registered? <a href="loginUser.php">Login here</a></p>
 
     </form>
 </div>

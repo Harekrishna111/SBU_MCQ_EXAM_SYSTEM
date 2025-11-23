@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,15 +10,7 @@
       font-family: "Poppins", sans-serif;
       background: linear-gradient(135deg, #e3f2fd, #f8fdff);
     }
-    .navbar {
-      background: #1565c0;
-      color: white;
-      padding: 15px 40px;
-      font-size: 22px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  
     .container {
       background: white;
       width: 450px;
@@ -55,7 +48,7 @@
   <div class="container">
     <h2>Select Course & Subject</h2>
     
-    <select id="course" onchange="loadSubjects()">
+    <select id="course" name="course">
       <option value="">-- Select Course --</option>
       <option value="BCA">BCA</option>
       <option value="MCA">MCA</option>
@@ -65,15 +58,33 @@
       <option value="DIPLOMA">DIPLOMA</option>
       <option value="BTECH">B.TECH</option>
     </select><br>
-
-    <select id="subject">
-      <option value="">-- Select Subject --</option>
+    <select id="course" name="semester">
+      <option value="">-- Semester --</option>
+      <option value="I">I</option>
+      <option value="II">II</option>
+      <option value="III">III</option>
+      <option value="IV">IV</option>
+      <option value="V">V</option>
+      <option value="VI">VI</option>
+     
     </select><br>
 
-    <button onclick="startExam()">Start Exam</button>
+     <select name="section" required>
+            <option value="" disabled selected>Choose Semester</option>
+            <option>SECTION-A</option>
+            <option>SECTION-B</option>
+            <option>SECTION-C</option>
+            <option>SECTION-D</option>
+            <option>SECTION-E</option>
+            <option>SECTION-F</option>
+            <option>SECTION-G</option>
+           
+  </select>
+
+    <button>Start Exam</button>
   </div>
 
-  <script>
+  <!-- <script>
     const user = localStorage.getItem("loginUser");
     if (!user) window.location.href = "login.html";
     document.getElementById("username").innerText = "👋 " + user;
@@ -100,17 +111,7 @@
           subjectSelect.appendChild(opt);
         });
       }
-    }
+    } -->
 
-    function startExam() {
-      const course = document.getElementById("course").value;
-      const subject = document.getElementById("subject").value;
-      if (!course) return alert("Please select a course!");
-      if (!subject) return alert("Please select a subject!");
-      localStorage.setItem("selectedCourse", course);
-      localStorage.setItem("selectedSubject", subject);
-      window.location.href = "exam.html";
-    }
-  </script>
 </body>
 </html>

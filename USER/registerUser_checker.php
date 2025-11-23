@@ -17,7 +17,7 @@ if($sql_fin==0){
  (NULL,'$St_name','$st_Enroll','$st_course','$St_semester','$St_section','$St_Gender','$St_password','1')";
  $sql_res=mysqli_query($conn,$sql);
  if($sql_res){
-     header("Location: login.php?msg=insert Sucessfully");
+     header("Location: loginUser.php?msg=insert Sucessfully");
     }
    
 }
