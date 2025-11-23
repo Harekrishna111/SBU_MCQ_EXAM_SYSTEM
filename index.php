@@ -180,15 +180,15 @@
             <a href="#">Activities</a>
             <a href="#">About</a>
             <a href="#">Contact</a>
-            <a href="/users/register.html">Student Login</a>
-            <a href="/admin/admin.html">Admin Login</a>
+            <a href="/sbuMCQ_exam/SBU_MCQ_EXAM_SYSTEM/user/registerUser.php">Student Login</a>
+            <a href="/sbuMCQ_exam/SBU_MCQ_EXAM_SYSTEM/admin/account_create.php">Admin Login</a>
         </nav>
         
     </header>
 
     <!-- College Info + Image Section -->
     <section class="college-section">
-        <img src="/photo/CampusBanner.jpg" alt="College Campus">
+        <img src="./photo/CampusBanner.jpg" alt="College Campus">
 
         <div class="college-info">
             <h2>Welcome to Our College MCQ Exam System</h2>
@@ -211,28 +211,28 @@
 
         <div class="activity-grid">
             <div class="activity-card">
-                <img src="/photo/activity.jpg" alt="Science Lab">
+                <img src="../photo/activity.jpg" alt="Science Lab">
                 <h3>Games & Activities</h3>
                 <p>Our college promotes sports and e-games, encouraging teamwork, fitness, creativity, and enjoyment
                     through active student participation.</p>
             </div>
 
             <div class="activity-card">
-                <img src="/photo/libr.jpg" alt="Library">
+                <img src="../photo/libr.jpg" alt="Library">
                 <h3>Modern Library</h3>
                 <p>The digital library offers access to thousands of academic journals, e-books, and study materials.
                 </p>
             </div>
 
             <div class="activity-card">
-                <img src="/photo/helth.webp" alt="Sports Event">
+                <img src="../photo/helth.webp" alt="Sports Event">
                 <h3>Sports & Fitness</h3>
                 <p>Students participate in sports and physical activities that promote teamwork, leadership, and health.
                 </p>
             </div>
 
             <div class="activity-card">
-                <img src="/photo/sami.jpeg" alt="Tech Fest">
+                <img src="../photo/sami.jpeg" alt="Tech Fest">
                 <h3>Tech Fests & Seminars</h3>
                 <p>Our college hosts tech events and seminars to encourage innovation and technical knowledge.</p>
             </div>

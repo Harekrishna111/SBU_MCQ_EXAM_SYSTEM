@@ -1,20 +1,10 @@
 <?php
-// if (isset($_GET['error'])) {
+include_once("dbname.php");
+if(isset($_SESSION["user"])){
+  header("Location: create_class.php");
+}
 
-//     $err = $_GET['error'];
-
-//     echo "<ul>";
-
-//     if ($err == "wrong_password") {
-//         echo "<li>Your password is incorrect</li>";
-//     } 
-//     elseif ($err == "invalid_email") {
-//         echo "<li>Email format invalid</li>";
-//     }
-
-//     echo "</ul>";
-// }
-?>
+?> 
 
 <!DOCTYPE html>
 <html lang="en">

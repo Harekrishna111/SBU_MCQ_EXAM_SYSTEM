@@ -1,7 +1,10 @@
+<?php 
+include_once("dbname.php");
+if(!isset($_SESSION["user"])){
+  header("Location: admin_login.php");
+}
 
-
-
-
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +22,39 @@
       height: 100vh;
       color: #333;
     }
+
+            header {
+            background-color: #004aad;
+            color: white;
+            padding: 15px 10px;
+
+            width: 100%;
+            display: flex;
+            position:fixed;
+            z-index: 100;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+          }
+          
+          header h1 {
+            font-size: 24px;
+            letter-spacing: 1px;
+          }
+          
+          nav a {
+            color: white;
+            padding: 15px 10px;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: 0.3s;
+            /* margin-right:70px; */
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
 
     /* Left Section */
     .left-section {
@@ -120,6 +156,10 @@
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
 
+
+     .BTS{
+      width: 30px;
+    }
     .class-card h3 {
       color: #1e3a8a;
       margin-bottom: 8px;
@@ -247,13 +287,27 @@
 </head>
 
 <body>
+     <header>
+        <h1>College MCQ Exam</h1>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#">Activities</a>
+            <a href="#">About</a>
+            <a href="#">Contact</a>
+            <!-- <a href="#">Contact</a> -->
+            
+           <form action="Logout.php"><button class="BTS">Logout</button></form>
+           
+        </nav>
+        
+    </header><br><br><br><br><br>
   <!-- Left Part: Create Class Form -->
    <div class ="Main_container">
   <div class="left-section">
     <h2 style="">Create New Class</h2>
     <form id="classForm" action="create_class_checker.php" method="post">
       <label for="classname">Course:</label>
-      <input type="text" id="classname" name="classname" placeholder="e.g. Class 10A" required>
+      <input type="text" id="classname" name="classname" placeholder="e.g. BCA/b tech" required>
 
       <label for="subject">Subject:</label>
       <input type="text" id="subject" name="subject" placeholder="e.g. Mathematics" required>
@@ -276,7 +330,7 @@
 
   <!-- Right Part: View All Classes -->
   <div class="right-section">
-    <h1 style="text-align:end; font-size: 16px;">hello</h1>
+    <h1 style="text-align:end; font-size: 16px;"> Welcome <?php echo ucwords($_SESSION["username"]);?></h1>
     <div class="sub_right" style="display:flex;">
     <div class="grid-container">
 

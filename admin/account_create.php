@@ -1,3 +1,13 @@
+<?php
+include_once("dbname.php");
+if(isset($_SESSION["user"])){
+  header("Location: create_class.php");
+}
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

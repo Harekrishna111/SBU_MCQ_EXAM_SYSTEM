@@ -1,5 +1,6 @@
 <?php
 include_once("dbname.php");
+if($_SERVER["REQUEST_METHOD"]=="POST"){
 $fullname= $_POST["fullname"];
 $Eamil= $_POST["email"];
 $N_password=  md5($_POST["password"]);
@@ -18,9 +19,6 @@ $sql_run= mysqli_query($conn,$sql_checker);
 if($sql_checker){
     echo 'insert sucessfully';
     header("Location: admin_login.php");
-
-      session_start();
-    $_SESSION["username"] = "$fullname";
 }
 
 
@@ -37,4 +35,6 @@ else{
     header("Location: account_create.php?error= Already have an account");
     
 }
+}
+
 ?>

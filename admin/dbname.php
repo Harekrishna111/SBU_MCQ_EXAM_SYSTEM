@@ -10,6 +10,7 @@ if(!$conn)
 {
     echo 'DATABase faild';
 }
+session_start();
 
 
 
