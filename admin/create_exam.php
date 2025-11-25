@@ -1,3 +1,8 @@
+<?php
+include_once("dbname.php");
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -26,12 +31,23 @@
             color: white;
             padding: 2px 40px;
             font-size: 14px;
+            
             display: flex;
-            justify-content: space-between;
+            justify-content:space-between;
             align-items: center;
             background: #1565c0;
         }
-        
+         .navbar a{
+        color: yellow;
+        font-size:16px;
+         font-weight:200px;
+
+    
+        }
+
+        .navbar a:hover{
+            color: black;
+        }
 
         .sidebar h3 {
             margin-top: 0;
@@ -146,7 +162,9 @@
 <body>
     <div class="navbar">
         <h2>MCQ Exam System</h2>
-        <span id="username"></span>
+        <a href="result.php"><u>Result Show</u></a>
+        
+      
     </div>
 
     <div style="display: flex;">
@@ -167,35 +185,23 @@
         <div class="main-content">
 
             <div class="user-box">
-                Welcome, <b>John Doe</b>
+                Welcome, <?php echo ucwords($_SESSION["username"]);?></b>
             </div>
 
             <div class="exam-section">
                 <h2>Current Exams</h2>
                 <div class="exam-list">
 
-                    <?php
-include_once("../admin/dbname.php");
 
-$sql = "SELECT * FROM `class_create`";
-$result = mysqli_query($conn, $sql);
 
-// if(!$result){
-//     die("Query Failed: " . mysqli_error($conn));
-// }
-
-while($rows = mysqli_fetch_assoc($result)){
-            echo '<div class="exam-box">
-                        <div class="exam-title">'.$rows['Subject'].'</div>
+<div class="exam-box">
+                        <div class="exam-title"></div>
                         <div class="exam-info">
-                            <p>📅 Date: '.$rows['Exam Date'].'</p>
-                            <spam>👨‍🏫 Teacher: '.$rows["teachers_nam"].' </spam><br>
-                             <button><a class ="ah" href="examPage.php?classes='.$rows['Sno'].'">Exam Start</a></button>
+                            <p>📅 </p>
+                            <spam>👨‍🏫 </spam><br>
+                             <button><a class ="ah" href="#">Exam Start</a></button>
                         </div>
-                    </div>';
-                }
-
-                ?>
+                    </div>
 
                  </div>
             </div>

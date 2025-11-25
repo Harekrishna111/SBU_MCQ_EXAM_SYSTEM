@@ -5,9 +5,6 @@ if(isset($_SESSION["user"])){
 }
 
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,7 +120,7 @@ if(isset($_SESSION["user"])){
 <body>
 
   <div class="container">
-    <h2>Create Account</h2>
+    <h2>Create Account  (For Teachers)</h2>
     <form id="accountForm" action="account_create_checker.php" method="Post">
       <label for="fullname">Full Name:</label>
       <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>

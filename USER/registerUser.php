@@ -131,7 +131,7 @@
 
 
 <div class="container">
-    <h2>Register</h2>
+    <h2>Register (for Student)</h2>
 
     <form action="registerUser_checker.php" method="post">
 

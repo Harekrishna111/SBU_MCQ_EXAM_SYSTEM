@@ -158,8 +158,10 @@ if(!isset($_SESSION["user"])){
 
 
      .BTS{
-      width: 30px;
-    }
+         width: 64px;
+    margin-right: -6px;
+}
+    
     .class-card h3 {
       color: #1e3a8a;
       margin-bottom: 8px;
@@ -296,7 +298,7 @@ if(!isset($_SESSION["user"])){
             <a href="#">Contact</a>
             <!-- <a href="#">Contact</a> -->
             
-           <form action="Logout.php"><button class="BTS">Logout</button></form>
+           <a href="Logout.php"><button class="BTS">Logout</button></a>
            
         </nav>
         
@@ -306,7 +308,11 @@ if(!isset($_SESSION["user"])){
   <div class="left-section">
     <h2 style="">Create New Class</h2>
     <form id="classForm" action="create_class_checker.php" method="post">
+
+      <label for="classname">Enter Teacher name:</label>
+      <input type="text" id="classname" name="Teacher_nam" placeholder="e.g. Dr/mr/mrs xyz" required>
       <label for="classname">Course:</label>
+
       <input type="text" id="classname" name="classname" placeholder="e.g. BCA/b tech" required>
 
       <label for="subject">Subject:</label>
@@ -330,18 +336,22 @@ if(!isset($_SESSION["user"])){
 
   <!-- Right Part: View All Classes -->
   <div class="right-section">
-    <h1 style="text-align:end; font-size: 16px;"> Welcome <?php echo ucwords($_SESSION["username"]);?></h1>
+    <div style="text-algin:end;display:flex;justify-content:space-between;">
+
+      <p style="text-align:start; font-size: 16px;"> Welcome  <b> <?php echo ucwords($_SESSION["username"]);?></b></p>
+      <a style="text-align:end; font-size:18px;color:green;" href="create_exam.php">Exam Page 👉</a>
+    </div>
     <div class="sub_right" style="display:flex;">
     <div class="grid-container">
 
-  <?php
+      <?php
 include_once("dbname.php");
 
 $sql = "SELECT * FROM `class_create`";
 $result = mysqli_query($conn, $sql);
 
 if(!$result){
-    die("Query Failed: " . mysqli_error($conn));
+  die("Query Failed: " . mysqli_error($conn));
 }
 
 while($rows = mysqli_fetch_assoc($result)){

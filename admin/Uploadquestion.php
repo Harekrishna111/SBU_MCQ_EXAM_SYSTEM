@@ -143,12 +143,10 @@
 </body>
 </html>
 <script>
-  var n = window.location.href.split("=")[1];
-  console.log(n)
-  if(n!=undefined){
-  n = decodeURIComponent(n);
-  // alert(n);
-  document.getElementById("message").innerHTML = n;
-  document.getElementById("message").style.display = "block"; 
+  // console.log(window.location.href.split("?")[1].split("?"[0])=="classes")
+  if(window.location.href.split("?")[1].split("=")[0]=="classes"){
+    
+  }elseif(window.location.href.split("?")[1].split("=")[0]=="msg"){
+    
   }
   </script>
