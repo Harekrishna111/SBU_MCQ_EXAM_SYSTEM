@@ -23,6 +23,9 @@ if($sql_checker){
 
 
 }
+
+
+
 else{
     // password error
     header("Location: account_create.php?error=Password does't match!");
