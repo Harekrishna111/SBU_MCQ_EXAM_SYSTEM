@@ -29,23 +29,32 @@ include_once("dbname.php");
 
         .navbar {
             color: white;
-            padding: 2px 40px;
+
             font-size: 14px;
-            
             display: flex;
-            justify-content:space-between;
-            align-items: center;
+            justify-content: space-between;
             background: #1565c0;
         }
-         .navbar a{
-        color: yellow;
-        font-size:16px;
-         font-weight:200px;
 
-    
+        h2 {
+            text-align: start;
+
         }
 
-        .navbar a:hover{
+        .navbar a {
+            color: yellow;
+            font-size: 16px;
+            font-weight: 200px;
+
+
+        }
+
+        .BTS {
+            margin-right: -6px;
+            width: 64px;
+        }
+
+        .navbar a:hover {
             color: black;
         }
 
@@ -68,8 +77,9 @@ include_once("dbname.php");
             cursor: pointer;
             transition: 0.3s;
         }
-       a{
-        text-decoration:none;
+
+        a {
+            text-decoration: none;
         }
 
         .sidebar ul li:hover {
@@ -112,6 +122,7 @@ include_once("dbname.php");
             background: #fff;
             width: 260px;
             padding: 15px;
+            /* display:flex; */
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
             transition: 0.3s;
@@ -124,37 +135,44 @@ include_once("dbname.php");
         .exam-title {
             font-weight: 600;
             font-size: 18px;
+            text-align: end;
+            display: flex;
+            justify-content:space-between;
             margin-bottom: 5px;
         }
 
-      button {
-      width: 30%;
-      margin-top: 20px;
-      padding: 8px;
-      border: none;
-      border-radius: 8px;
-      background-color: #717deeff;
-      color: #fff;
-      font-size: 7px;
-      transition: 0.3s;
-      cursor: pointer;
-    }
-    .ah{
-        text-decoration:none;
-        font-size:12px;
-        color: white;
-    }
+        button {
+            width: 30%;
+            padding: 8px;
+            border: none;
+            border-radius: 8px;
+            background-color: #717deeff;
+            color: #fff;
+            font-size: 7px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+
+        .ah {
+            text-decoration: none;
+            font-size: 12px;
+            color: white;
+        }
 
 
 
-    button:hover {
-      background-color: #3542b5;
-    }
+        button:hover {
+            background-color: #3542b5;
+        }
 
         .exam-info {
             font-size: 14px;
             color: #555;
-            line-height: 1.5;
+            /* display:flex; */
+            line-height: 1.6;
+        }
+        .exam-boxs{
+            margin-bottom:30px;
         }
     </style>
 </head>
@@ -162,9 +180,12 @@ include_once("dbname.php");
 <body>
     <div class="navbar">
         <h2>MCQ Exam System</h2>
-        <a href="result.php"><u>Result Show</u></a>
-        
-      
+        <div style="display:flex; margin-top:20px;margin-right:20px;">
+            <a href="Logout.php"><button style="margin-Right:20px; font-size:13px" class="BTS">Logout</button></a>
+            <a href="result.php"><u>Result Show</u></a>
+
+        </div>
+
     </div>
 
     <div style="display: flex;">
@@ -185,25 +206,58 @@ include_once("dbname.php");
         <div class="main-content">
 
             <div class="user-box">
-                Welcome, <?php echo ucwords($_SESSION["username"]);?></b>
+                Welcome,
+                <?php echo ucwords($_SESSION["username"]);?></b>
             </div>
 
             <div class="exam-section">
                 <h2>Current Exams</h2>
+                <h4>BCA</h4>
                 <div class="exam-list">
 
+                    <?php
+include_once("dbname.php");
+ $sql= "SELECT * FROM `class_create`";
+ $result =mysqli_query($conn,$sql);
+while($rows = mysqli_fetch_assoc($result)){
 
 
-<div class="exam-box">
-                        <div class="exam-title"></div>
-                        <div class="exam-info">
-                            <p>📅 </p>
-                            <spam>👨‍🏫 </spam><br>
-                             <button><a class ="ah" href="#">Exam Start</a></button>
-                        </div>
-                    </div>
+    if(ucwords($rows["Course"])=="BCA"){
 
-                 </div>
+        echo "<div class='exam-box'>
+        <div class='exam-title'>
+        
+        <spam>Sem:".$rows["Semester"]." </spam><br>
+        <spam>Sec:".$rows["Section"]." </spam><br>
+        </div>
+        <div class='exam-info'>
+        <spam>👨‍🏫<b>Subject</b>: ".$rows["Subject"]." </spam><br>
+        <spam>👨‍🏫<b>Preoid</b>: </spam><br>
+        <p>📅".$rows["Exam Date"]." </p>
+        </div>
+        <button><a class='ah' href='#'>Exam Start</a></button>
+        </div>";
+    }
+    else if(ucwords($rows["Course"])=="B.tech"){
+       echo"<div class='exam-boxs'>
+        <div class='exam-title'>
+        
+        <spam>👨‍🏫".$rows["Section"]." </spam><br>
+        </div>
+        <div class='exam-info'>
+        <spam>👨‍🏫 </spam><br>
+        <spam>👨‍🏫 </spam><br>
+        <p>📅".$rows["Exam Date"]." </p>
+        </div>
+        <button><a class='ah' href='#'>Exam Start</a></button>
+        </div>";
+
+    }
+}
+?>
+
+
+                </div>
             </div>
 
         </div>

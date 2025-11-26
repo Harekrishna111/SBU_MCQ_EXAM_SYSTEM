@@ -26,7 +26,7 @@ if(!isset($_SESSION["user"])){
             header {
             background-color: #004aad;
             color: white;
-            padding: 15px 10px;
+            /* padding: 15px 10px; */
 
             width: 100%;
             display: flex;
@@ -63,7 +63,7 @@ if(!isset($_SESSION["user"])){
       position: relative;
       left: 24%;
       background: #ffffff;
-      margin: 40px 20px 40px 40px;
+    
       padding: 30px;
       border-radius: 15px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
@@ -104,7 +104,7 @@ if(!isset($_SESSION["user"])){
 
     button {
       width: 100%;
-      margin-top: 20px;
+      /* margin-top: 20px; */
       padding: 10px;
       border: none;
       border-radius: 8px;
@@ -157,10 +157,7 @@ if(!isset($_SESSION["user"])){
     }
 
 
-     .BTS{
-         width: 64px;
-    margin-right: -6px;
-}
+
     
     .class-card h3 {
       color: #1e3a8a;
@@ -272,6 +269,20 @@ if(!isset($_SESSION["user"])){
   font-size:15px;
   color: white;
 }
+    .error-box {
+    margin: 15px 0;
+    padding: 12px 18px;
+    font-size: 14px;
+    color: #b00020;                
+    background: #ffe5e8;            
+    border-left: 4px solid #b00020; 
+    border-radius: 6px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+     display: none;       
+     text-align: start;            
+    animation: fadeIn 0.5s ease-in-out;
+}
 
 
 /* Icons */
@@ -298,7 +309,7 @@ if(!isset($_SESSION["user"])){
             <a href="#">Contact</a>
             <!-- <a href="#">Contact</a> -->
             
-           <a href="Logout.php"><button class="BTS">Logout</button></a>
+     
            
         </nav>
         
@@ -322,11 +333,12 @@ if(!isset($_SESSION["user"])){
       <input type="text" id="section" name="section" placeholder="e.g. A / B / C" required>
 
       <label for="teacher">Semester/years</label>
-      <input type="text" id="semseter" name="semesters" placeholder="Enter  semseter" required>
+      <input type="text" id="semseter" name="semesters" placeholder="e.g. I" required>
 
       <label for="teacher">Exam Date</label>
-      <input type="text" id="Exam" name="Dates" placeholder="Enter Examation date" required>
+      <input type="text" id="Exam" name="Dates" placeholder="e.g.  2004-12-10" required>
 
+       <div id ="message" class="error-box"></div>
       <button type="submit">Create Class</button>
     </form>
 
@@ -339,7 +351,7 @@ if(!isset($_SESSION["user"])){
     <div style="text-algin:end;display:flex;justify-content:space-between;">
 
       <p style="text-align:start; font-size: 16px;"> Welcome  <b> <?php echo ucwords($_SESSION["username"]);?></b></p>
-      <a style="text-align:end; font-size:18px;color:green;" href="create_exam.php">Exam Page 👉</a>
+      <a style="text-align:end; font-size:18px;color:green; text-decoration:none" href="create_exam.php"><b>Exam Page 👉</b></a>
     </div>
     <div class="sub_right" style="display:flex;">
     <div class="grid-container">
@@ -394,5 +406,21 @@ while($rows = mysqli_fetch_assoc($result)){
 
 
 </body>
+<script>
+  var n = window.location.href.split("=")[1];
+  console.log(n)
+  if(n!=undefined){
+  n = decodeURIComponent(n);
+  
+  // alert(n);
+  document.getElementById("message").innerHTML = n;
+  document.getElementById("message").style.display = "block"; 
+  }
+if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+  console.log("Page was reloaded.");
+  window.location.href = window.location.href.split("?")[0];
+
+}
+</script>
 
 </html>

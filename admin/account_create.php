@@ -151,14 +151,19 @@ if(isset($_SESSION["user"])){
 </html>
 
 <script>
-  var n = window.location.href.split("=")[1];
+    var n = window.location.href.split("=")[1];
   console.log(n)
   if(n!=undefined){
   n = decodeURIComponent(n);
+  
   // alert(n);
   document.getElementById("message").innerHTML = n;
   document.getElementById("message").style.display = "block"; 
   }
-  // document.getElementById("message").innerHTML="";
+if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+  console.log("Page was reloaded.");
+  window.location.href = window.location.href.split("?")[0];
+
+}
 </script>
   

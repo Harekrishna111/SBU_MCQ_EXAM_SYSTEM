@@ -80,9 +80,15 @@
   console.log(n)
   if(n!=undefined){
   n = decodeURIComponent(n);
+  
   // alert(n);
   document.getElementById("message").innerHTML = n;
   document.getElementById("message").style.display = "block"; 
   }
+if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+  console.log("Page was reloaded.");
+  window.location.href = window.location.href.split("?")[0];
+
+}
 </script>
 </html>
