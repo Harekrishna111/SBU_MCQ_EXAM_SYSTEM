@@ -5,9 +5,6 @@ if(isset($_SESSION["user"])){
 }
 
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,7 +120,7 @@ if(isset($_SESSION["user"])){
 <body>
 
   <div class="container">
-    <h2>Create Account</h2>
+    <h2>Create Account  (For Teachers)</h2>
     <form id="accountForm" action="account_create_checker.php" method="Post">
       <label for="fullname">Full Name:</label>
       <input type="text" id="fullname" name="fullname" placeholder="Enter your full name" required>
@@ -154,14 +151,19 @@ if(isset($_SESSION["user"])){
 </html>
 
 <script>
-  var n = window.location.href.split("=")[1];
+    var n = window.location.href.split("=")[1];
   console.log(n)
   if(n!=undefined){
   n = decodeURIComponent(n);
+  
   // alert(n);
   document.getElementById("message").innerHTML = n;
   document.getElementById("message").style.display = "block"; 
   }
-  // document.getElementById("message").innerHTML="";
+if (performance.navigation.type === performance.navigation.TYPE_RELOAD) {
+  console.log("Page was reloaded.");
+  window.location.href = window.location.href.split("?")[0];
+
+}
 </script>
   

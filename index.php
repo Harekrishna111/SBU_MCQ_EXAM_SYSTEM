@@ -25,7 +25,7 @@
         header {
             background-color: #004aad;
             color: white;
-            padding: 15px 40px;
+            padding: 25px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -33,6 +33,7 @@
         }
 
         header h1 {
+            w
             font-size: 24px;
             letter-spacing: 1px;
         }
@@ -176,7 +177,7 @@
     <header>
         <h1>College MCQ Exam</h1>
         <nav>
-            <a href="#">Home</a>
+            <a href="index.php">Home</a>
             <a href="#">Activities</a>
             <a href="#">About</a>
             <a href="#">Contact</a>
