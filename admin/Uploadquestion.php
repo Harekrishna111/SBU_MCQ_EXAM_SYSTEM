@@ -28,6 +28,7 @@
       text-align: center;
       margin-bottom: 15px;
       font-size: 20px;
+    
       font-weight: 600;
     }
 
@@ -90,9 +91,9 @@
 <body>
 
   <div class="container">
-    <h2>Upload Question</h2>
-
+    
     <form action="Uploadquestion_checker.php"  method="post">
+      <h2>Upload Question</h2>
 
       <label>Question:</label>
       <textarea rows="3" name="Question" placeholder="Enter question..." required></textarea>

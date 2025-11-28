@@ -1,21 +1,62 @@
+<?php
+include_once("../admin/dbname.php");
+
+// Fetch unique student results (group by student + class)
+$sql = "
+    SELECT 
+        student_id,
+        class_no,
+        SUM(CASE WHEN selected_answer = correct_answer THEN 1 ELSE 0 END) AS marks,
+        COUNT(question_id) AS total_questions,
+        submit_time
+    FROM submit
+    GROUP BY student_id, class_no
+    ORDER BY student_id ASC
+";
+
+$result = mysqli_query($conn, $sql);
+
+// Fetch class details for subject, section
+$classData = [];
+$classQuery = mysqli_query($conn, "SELECT * FROM class_create");
+while ($c = mysqli_fetch_assoc($classQuery)) {
+    $classData[$c["Sno"]] = $c; 
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>All Student Results</title>
+
   <style>
     body {
       font-family: "Poppins", sans-serif;
       background: linear-gradient(135deg, #74ABE2, #5563DE);
       margin: 0;
       padding: 0;
+      min-height: 100vh;
+    }
+    .navbar {
+      color: white;
+      padding: 2px 40px;
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #1565c0;
+    }
+    h2{
+      color: white;
+    }
+    .main_con{
+
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      min-height: 100vh;
     }
-
+      
     .container {
       background: #fff;
       margin-top: 40px;
@@ -26,7 +67,7 @@
       max-width: 900px;
     }
 
-    h2 {
+    h3 {
       text-align: center;
       color: #004aad;
       margin-bottom: 25px;
@@ -49,19 +90,13 @@
       color: white;
     }
 
-    tr:nth-child(even) {
-      background-color: #f2f2f2;
-    }
-
-    tr:hover {
-      background-color: #e6f0ff;
-    }
+    tr:nth-child(even) { background-color: #f2f2f2; }
+    tr:hover { background-color: #e6f0ff; }
 
     .status-pass {
       color: green;
       font-weight: bold;
     }
-
     .status-fail {
       color: red;
       font-weight: bold;
@@ -71,69 +106,71 @@
       text-align: center;
       margin-top: 20px;
     }
-
     .link a {
       color: #004aad;
       text-decoration: none;
       font-weight: 600;
     }
-
-    .link a:hover {
-      text-decoration: underline;
-    }
-
   </style>
 </head>
+
 <body>
-  <div class="container">
-    <h2>All Students Result Record</h2>
+  <div class="navbar">
+      <h2>MCQ Exam System</h2>
+      <span id="username"></span>
+  </div>
+  <div class="main_con">
+
+    <div class="container">
+      <h3>All Students Result Record</h3>
 
     <table>
-      <thead>
-        <tr>
-          <th>Roll No</th>
-          <th>Student Name</th>
-          <th>Class</th>
-          <th>Section</th>
-          <th>Subject</th>
-          <th>Marks</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody id="resultTable"></tbody>
-    </table>
+        <thead>
+            <tr>
+                <th>Enrollment no.</th>
+                
+                <th>Course</th>
+                <th>Subject</th>
+                <th>Section</th>
+                <th>Marks</th>
+                <th>Status</th>
+                <th>Submit Time</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+          <?php
+        while ($row = mysqli_fetch_assoc($result)) {
 
-    <div class="link">
-      🔙 <a href="teacher_dashboard.html">Back to Teacher Dashboard</a>
+            $classId = $row["class_no"];
+            $class = $classData[$classId];
+
+            $marks = $row["marks"];
+            $total = $row["total_questions"];
+
+            $status = ($marks >= ($total / 2)) ? "Pass" : "Fail";
+            $statusClass = ($status == "Pass") ? "status-pass" : "status-fail";
+
+            echo "<tr>
+                <td>{$row["student_id"]}</td>
+               
+                <td>{$class["Course"]}</td>
+                <td>{$class["Subject"]}</td>
+                <td>{$class["Section"]}</td>
+                <td>{$marks} / {$total}</td>
+                <td class='{$statusClass}'>$status</td>
+                <td>{$row["submit_time"]}</td>
+                </tr>";
+              }
+              ?>
+        </tbody>
+      </table>
+      
+      <div class="link">
+        🔙 <a href="teacher_dashboard.html">Back to Teacher Dashboard</a>
+      </div>
     </div>
+    
   </div>
-
-  <script>
-    // Dummy result data for display
-    const results = [
-      { roll: "101", name: "Riya Sharma", class: "Class 6", section: "A", subject: "Math", marks: 92, status: "Pass" },
-      { roll: "102", name: "Amit Verma", class: "Class 6", section: "A", subject: "Science", marks: 78, status: "Pass" },
-      { roll: "201", name: "Neha Singh", class: "Class 7", section: "B", subject: "Math", marks: 60, status: "Pass" },
-      { roll: "202", name: "Rahul Yadav", class: "Class 7", section: "B", subject: "Science", marks: 45, status: "Fail" },
-      { roll: "301", name: "Sneha Patil", class: "Class 8", section: "C", subject: "English", marks: 88, status: "Pass" },
-      { roll: "302", name: "Karan Gupta", class: "Class 8", section: "C", subject: "Math", marks: 51, status: "Pass" },
-      { roll: "303", name: "Anjali Rao", class: "Class 8", section: "C", subject: "Science", marks: 39, status: "Fail" }
-    ];
-
-    const table = document.getElementById("resultTable");
-
-    results.forEach(r => {
-      const row = `<tr>
-        <td>${r.roll}</td>
-        <td>${r.name}</td>
-        <td>${r.class}</td>
-        <td>${r.section}</td>
-        <td>${r.subject}</td>
-        <td>${r.marks}</td>
-        <td class="${r.status === "Pass" ? "status-pass" : "status-fail"}">${r.status}</td>
-      </tr>`;
-      table.innerHTML += row;
-    });
-  </script>
 </body>
 </html>
