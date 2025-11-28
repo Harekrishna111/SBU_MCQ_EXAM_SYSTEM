@@ -7,7 +7,7 @@ $st_course=$_POST["course"];
 $St_semester=$_POST["semester"];
 $St_section=$_POST["section"];
 $St_Gender=$_POST["gender"];
-$St_password=$_POST["password"];
+$St_password=md5($_POST["password"]);
 
 $sql_check ="SELECT * FROM `student_register` WHERE `enroll`='$st_Enroll'";
 $sql_res=mysqli_query($conn,$sql_check);
@@ -17,14 +17,16 @@ if($sql_fin==0){
  (NULL,'$St_name','$st_Enroll','$st_course','$St_semester','$St_section','$St_Gender','$St_password','1')";
  $sql_res=mysqli_query($conn,$sql);
  if($sql_res){
-     header("Location: loginUser.php?msg=insert Sucessfully");
-    }
+     header("Location: loginUser.php");
+    
+     
    
 }
 else{
  header("Location: registerUser.php?msg=Already have an account?");
 }
 
+}
 }
 
 ?>

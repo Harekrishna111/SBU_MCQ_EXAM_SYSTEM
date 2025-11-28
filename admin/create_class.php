@@ -337,7 +337,10 @@ if(!isset($_SESSION["user"])){
 
       <label for="teacher">Exam Date</label>
       <input type="text" id="Exam" name="Dates" placeholder="e.g.  2004-12-10" required>
-
+      
+      <label for="teacher">Preoid</label>
+      <input type="text" id="Exam" name="peroid" placeholder="e.g. 9:00 to 9:45 am" required>
+<br><br>
        <div id ="message" class="error-box"></div>
       <button type="submit">Create Class</button>
     </form>
@@ -351,7 +354,7 @@ if(!isset($_SESSION["user"])){
     <div style="text-algin:end;display:flex;justify-content:space-between;">
 
       <p style="text-align:start; font-size: 16px;"> Welcome  <b> <?php echo ucwords($_SESSION["username"]);?></b></p>
-      <a style="text-align:end; font-size:18px;color:green; text-decoration:none" href="create_exam.php"><b>Exam Page 👉</b></a>
+      <a style="text-align:end; font-size:18px;color:green; text-decoration:none" href="Exam_Start.php"><b>Exam Page 👉</b></a>
     </div>
     <div class="sub_right" style="display:flex;">
     <div class="grid-container">

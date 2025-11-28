@@ -6,6 +6,7 @@ $Subject =$_POST["subject"];
 $Section =$_POST["section"];
 $Semster =$_POST["semesters"];
 $Exam_date =$_POST["Dates"];
+$peroid =$_POST["peroid"];
      
 
 $sql_ru_checker = "SELECT * FROM `class_create` WHERE `Subject`='$Subject'";
@@ -13,8 +14,8 @@ $sql_run=mysqli_query($conn,$sql_ru_checker);
 $sql_run = mysqli_num_rows($sql_run);
 if($sql_run==0){
 
-    $sql ="INSERT INTO `class_create`(`Sno`,`teachers_nam`, `Course`, `Subject`, `Section`, `Semester`, `Exam Date`, `status`) VALUES
- (NULL,'$TeacherName','$ClassName','$Subject','$Section','$Semster','$Exam_date','1')";
+    $sql ="INSERT INTO `class_create`(`Sno`,`teachers_nam`, `Course`, `Subject`, `Section`, `Semester`, `Exam Date`,`Peroid`, `status`) VALUES
+ (NULL,'$TeacherName','$ClassName','$Subject','$Section','$Semster','$Exam_date','$peroid','0')";
 
 
 $sql_checker = mysqli_query($conn,$sql);

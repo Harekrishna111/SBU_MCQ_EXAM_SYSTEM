@@ -1,8 +1,37 @@
+<?php
+include_once("../admin/dbname.php");
+
+// Get class id from URL
+$classId = $_GET['classes'];
+$studentId = $_SESSION["userEnroll"];
+
+// REAL STUDENT ID
+
+
+// Fetch class info
+$classSql = "SELECT * FROM class_create WHERE Sno='$classId'";
+$classResult = mysqli_query($conn, $classSql);
+$classData = mysqli_fetch_assoc($classResult);
+
+// Fetch questions
+$qSql = "SELECT * FROM upload_question WHERE class_no='$classId'";
+$qResult = mysqli_query($conn, $qSql);
+
+$questions = [];
+while ($row = mysqli_fetch_assoc($qResult)) {
+    $questions[] = $row;
+}
+
+// Convert to JSON for JS
+$jsQuestions = json_encode($questions);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Exam | MCQ Exam System</title>
+  <title><?php echo $classData['Subject']; ?> | Exam</title>
+
   <style>
     body {
       margin: 0;
@@ -11,11 +40,11 @@
     }
     .navbar {
       background-color: #205295;
+      color: white;
+      padding: 12px 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px 40px;
-      color: white;
     }
     .exam-container {
       background: white;
@@ -49,85 +78,171 @@
     button:hover { background-color: #2c74b3; }
   </style>
 </head>
+
 <body>
-  <div class="navbar">
-    <h2>MCQ Exam System</h2>
+
+<div class="navbar">
+  <p id="timer" style="font-size:18px; font-weight:bold;"></p>
+  <h2><?php echo $classData['Course']; ?> - <?php echo $classData['Subject']; ?></h2>
+  <p>Section: <?php echo $classData['Section']; ?> | Sem: <?php echo $classData['Semester']; ?></p>
+</div>
+
+<div class="exam-container">
+  <p id="qNumber"></p>
+  <h2 id="questionText"></h2>
+  <div id="optionsList" class="options"></div>
+
+  <div class="buttons">
+    <button id="prevBtn" onclick="prevQuestion()">Previous</button>
+    <button id="nextBtn" onclick="nextQuestion()">Next</button>
   </div>
+</div>
 
-  <div class="exam-container">
-    <p id="qNumber"></p>
-    <h2 id="questionText"></h2>
-    <div id="optionsList" class="options"></div>
-    <div class="buttons">
-      <button id="prevBtn" onclick="prevQuestion()">Previous</button>
-      <button id="nextBtn" onclick="nextQuestion()">Next</button>
-    </div>
-  </div>
+<script>
+  const questions = <?php echo $jsQuestions; ?>;
 
-  <script>
-    const bcaQuestions = [
-      {question: "Full form of BCA?", options: ["Bachelor of Computer Applications", "Basic Computer Arts", "Binary Computer Analysis", "Business Code Access"], answer: "Bachelor of Computer Applications"},
-      {question: "HTML stands for?", options: ["Hyper Text Markup Language", "High Text Machine Language", "Hyperlinks and Text Markup Language", "None"], answer: "Hyper Text Markup Language"},
-      {question: "Which is a programming language?", options: ["HTML", "Python", "CSS", "Bootstrap"], answer: "Python"},
-      {question: "CSS used for?", options: ["Structure", "Design", "Logic", "Database"], answer: "Design"},
-      {question: "Which is database software?", options: ["MySQL", "Excel", "Word", "C++"], answer: "MySQL"},
-      {question: "Which is IDE?", options: ["VS Code", "Paint", "PowerPoint", "Excel"], answer: "VS Code"},
-      {question: "OOP stands for?", options: ["Object Oriented Programming", "Old Operating Process", "Online Output Program", "None"], answer: "Object Oriented Programming"},
-      {question: "Which tag for image?", options: ["<img>", "<src>", "<image>", "<pic>"], answer: "<img>"},
-      {question: "Which symbol is used for ID in CSS?", options: ["#", ".", "/", "@"], answer: "#"},
-      {question: "Which language backend?", options: ["Python", "HTML", "CSS", "Bootstrap"], answer: "Python"}
-    ];
+  let currentQuestion = 0;
+  let selectedAnswers = {};
+  let isSubmitted = false; // prevent double submit
 
-    let currentQuestion = 0;
-    let selectedAnswers = {};
+  function loadQuestion() {
+    const q = questions[currentQuestion];
 
-    function loadQuestion() {
-      const q = bcaQuestions[currentQuestion];
-      document.getElementById("qNumber").textContent = `Question ${currentQuestion + 1} of ${bcaQuestions.length}`;
-      document.getElementById("questionText").textContent = q.question;
+    document.getElementById("qNumber").textContent =
+      `Question ${currentQuestion + 1} of ${questions.length}`;
 
-      const optionsDiv = document.getElementById("optionsList");
-      optionsDiv.innerHTML = "";
-      q.options.forEach(opt => {
-        const label = document.createElement("label");
-        label.innerHTML = `<input type="radio" name="option" value="${opt}" ${selectedAnswers[currentQuestion] === opt ? "checked" : ""}> ${opt}`;
-        optionsDiv.appendChild(label);
+    document.getElementById("questionText").textContent = q.Question;
+
+    const optionsDiv = document.getElementById("optionsList");
+    optionsDiv.innerHTML = "";
+
+    const options = [q.optionA, q.optionB, q.optionC, q.optionD];
+    const optionLetters = ["A", "B", "C", "D"];
+
+    options.forEach((opt, index) => {
+      const letter = optionLetters[index];
+
+      const label = document.createElement("label");
+      label.innerHTML = `
+        <input type="radio" name="option" data-option="${letter}"
+          ${selectedAnswers[currentQuestion] === letter ? "checked" : ""}>
+        <strong>${letter}.</strong> ${opt}
+      `;
+      optionsDiv.appendChild(label);
+    });
+
+    document.getElementById("prevBtn").style.display =
+      currentQuestion === 0 ? "none" : "inline-block";
+
+    document.getElementById("nextBtn").textContent =
+      currentQuestion === questions.length - 1 ? "Submit" : "Next";
+  }
+
+  function nextQuestion() {
+    const selected = document.querySelector('input[name="option"]:checked');
+    if (!selected) return alert("Please select an answer!");
+
+    selectedAnswers[currentQuestion] = selected.dataset.option;
+
+    if (currentQuestion < questions.length - 1) {
+      currentQuestion++;
+      loadQuestion();
+    } else {
+      submitAnswersToServer();
+    }
+  }
+
+  function prevQuestion() {
+    if (currentQuestion > 0) {
+      currentQuestion--;
+      loadQuestion();
+    }
+  }
+
+  function submitAnswersToServer() {
+
+    if (isSubmitted) return;     // 🔥 prevent double submit
+    isSubmitted = true;
+
+    let answersToSend = [];
+
+    questions.forEach((q, i) => {
+      answersToSend.push({
+        question_id: q.Sno,
+        selected: selectedAnswers[i] || "",
+        correct: q.correct_ans
       });
+    });
 
-      document.getElementById("prevBtn").style.display = currentQuestion === 0 ? "none" : "inline-block";
-      document.getElementById("nextBtn").textContent = currentQuestion === bcaQuestions.length - 1 ? "Submit" : "Next";
-    }
+    const data = {
+        student_id: "<?php echo $studentId; ?>",
+        class_no: <?php echo $classId; ?>,
+        answers: answersToSend
+    };
 
-    function nextQuestion() {
-      const selected = document.querySelector('input[name="option"]:checked');
-      if (!selected) return alert("Please select an answer!");
-      selectedAnswers[currentQuestion] = selected.value;
-      if (currentQuestion < bcaQuestions.length - 1) {
-        currentQuestion++;
-        loadQuestion();
-      } else {
-        calculateResult();
+    fetch("saveAnswers.php", {
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.status === "success") {
+            alert("Answers Submitted Successfully!");
+            window.location.href = "submit_success.php";
+        }
+    });
+  }
+
+  //---------------- TIMER -----------------
+  let timeLeft = 10 * 60;
+
+  function startTimer() {
+    const timerElement = document.getElementById("timer");
+
+    const countdown = setInterval(() => {
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+
+      seconds = seconds < 10 ? "0" : seconds;
+
+      timerElement.textContent = `⏳ Time Left: ${minutes}:${seconds}`;
+
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        alert("Time is over! Submitting your exam...");
+        submitAnswersToServer(); // auto-submit
       }
-    }
 
-    function prevQuestion() {
-      if (currentQuestion > 0) {
-        currentQuestion--;
-        loadQuestion();
-      }
-    }
+      timeLeft--;
+    }, 1000);
+  }
+  //----------------------------------------
 
-    function calculateResult() {
-      let score = 0;
-      bcaQuestions.forEach((q, i) => {
-        if (selectedAnswers[i] === q.answer) score++;
-      });
-      localStorage.setItem("examScore", score);
-      localStorage.setItem("totalQ", bcaQuestions.length);
-      window.location.href = "result.html";
-    }
+  loadQuestion();
+  startTimer();
+  // Prevent refresh or close
+window.addEventListener("beforeunload", function (e) {
 
-    loadQuestion();
-  </script>
+    // Auto-submit answers before closing
+    submitAnswersToServer();
+
+    // Show browser confirm popup
+    e.preventDefault(); 
+    e.returnValue = "Are you sure you want to leave the exam?";
+});
+// Disable F5 and Ctrl+R
+document.addEventListener("keydown", function (e) {
+    if (e.key === "F5" || (e.ctrlKey && e.key === "r")) {
+        e.preventDefault();
+        alert("Exam is running! Refresh is disabled.");
+        submitAnswersToServer(); // Auto-submit
+    }
+});
+document.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+});
+
+</script>
+
 </body>
 </html>

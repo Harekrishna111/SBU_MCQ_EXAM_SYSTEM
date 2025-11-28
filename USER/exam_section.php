@@ -1,3 +1,6 @@
+<?php
+include_once("../admin/dbname.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -127,8 +130,14 @@
         text-decoration:none;
         font-size:12px;
         color: white;
+        /* background-color: blue !important; */
     }
-
+.ahb{
+        text-decoration:none;
+        font-size:12px;
+        color: white;
+        background-color: grey !important;
+    }
 
 
     button:hover {
@@ -167,17 +176,17 @@
         <div class="main-content">
 
             <div class="user-box">
-                Welcome, <b>John Doe</b>
+                Welcome, <b><?php echo  $_SESSION["studentName"];?></b>
             </div>
 
             <div class="exam-section">
                 <h2>Current Exams</h2>
                 <div class="exam-list">
-
+                    
                     <?php
-include_once("../admin/dbname.php");
 
-$sql = "SELECT * FROM `class_create`";
+$section = $_SESSION['userSection'];
+$sql = "SELECT * FROM `class_create` where `Section`='$section'";
 $result = mysqli_query($conn, $sql);
 
 // if(!$result){
@@ -185,16 +194,25 @@ $result = mysqli_query($conn, $sql);
 // }
 
 while($rows = mysqli_fetch_assoc($result)){
-            echo '<div class="exam-box">
-                        <div class="exam-title">'.$rows['Subject'].'</div>
-                        <div class="exam-info">
-                            <p>📅 Date: '.$rows['Exam Date'].'</p>
-                            <spam>👨‍🏫 Teacher: '.$rows["teachers_nam"].' </spam><br>
-                             <button><a class ="ah" href="examPage.php?classes='.$rows['Sno'].'">Exam Start</a></button>
-                        </div>
-                    </div>';
-                }
+            if ($rows["status"] == 1) {
+    $btn = '<button><a class="ah" href="examPage.php?classes='.$rows['Sno'].'">Exam Start</a></button>';
+} else {
+    $btn = '<button class="ahb"><a >Comming soon...</a></button>';
+}
+$examDate = date("d/m/Y", strtotime($rows['Exam Date']));
 
+echo '
+<div class="exam-box">
+    <div class="exam-title">'.$rows['Subject'].'</div>
+    <div class="exam-info">
+        <p>📅 Date:'.$examDate.'</p>
+        <span>👨‍🏫 Teacher: '.$rows["teachers_nam"].'</span><br>
+        '.$btn.'
+    </div>
+</div>';
+
+
+}
                 ?>
 
                  </div>

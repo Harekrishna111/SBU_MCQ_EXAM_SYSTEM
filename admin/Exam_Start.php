@@ -38,6 +38,7 @@ include_once("dbname.php");
 
         h2 {
             text-align: start;
+              margin-left:10px;
 
         }
 
@@ -104,8 +105,17 @@ include_once("dbname.php");
         }
 
         /* Exams Section */
-        .exam-section {
-            margin-top: 30px;
+        .exam-boxse{
+            width: 290px;
+            padding: 15px;
+            background: #fff;
+             border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            transition: 0.3s;
+            
+        }
+          .exam-boxse:hover {
+            transform: translateY(-5px);
         }
 
         .exam-section h2 {
@@ -120,7 +130,7 @@ include_once("dbname.php");
 
         .exam-box {
             background: #fff;
-            width: 260px;
+            width: 290px;
             padding: 15px;
             /* display:flex; */
             border-radius: 10px;
@@ -132,7 +142,7 @@ include_once("dbname.php");
             transform: translateY(-5px);
         }
 
-        .exam-title {
+        .exam-title{
             font-weight: 600;
             font-size: 18px;
             text-align: end;
@@ -158,6 +168,9 @@ include_once("dbname.php");
             font-size: 12px;
             color: white;
         }
+        .spam{
+     color: #055d1bff;
+        }
 
 
 
@@ -169,7 +182,7 @@ include_once("dbname.php");
             font-size: 14px;
             color: #555;
             /* display:flex; */
-            line-height: 1.6;
+            line-height: 2.1;
         }
         .exam-boxs{
             margin-bottom:30px;
@@ -212,53 +225,80 @@ include_once("dbname.php");
 
             <div class="exam-section">
                 <h2>Current Exams</h2>
-                <h4>BCA</h4>
+                <h4 Style="background-color:lightBlue; padding:4px";>BCA</h4>
                 <div class="exam-list">
 
                     <?php
-include_once("dbname.php");
- $sql= "SELECT * FROM `class_create`";
- $result =mysqli_query($conn,$sql);
-while($rows = mysqli_fetch_assoc($result)){
+      include_once("dbname.php");
+      $sql= "SELECT * FROM `class_create`";
+      $result =mysqli_query($conn,$sql);
+      while($rows = mysqli_fetch_assoc($result)){
 
 
-    if(ucwords($rows["Course"])=="BCA"){
-
+    if(ucwords($rows["Course"]) == "BCA" || strtolower($rows["Course"]) == "bca"){
+         if ($rows["status"] == 1) {
+                $btn = "<button><a class='ah' href='create_examRedirect1.php?start=".$rows["Sno"]."'>Started...</a></button>";
+            } else {
+                $btn = "<button><a class='ah' href='create_examRedirect.php?start=".$rows["Sno"]."'>Start Exam </a></button>";
+            }
         echo "<div class='exam-box'>
         <div class='exam-title'>
         
-        <spam>Sem:".$rows["Semester"]." </spam><br>
-        <spam>Sec:".$rows["Section"]." </spam><br>
+        <spam>Sem: ".$rows["Semester"]." </spam><br>
+        <spam>Sec: ".$rows["Section"]." </spam><br>
         </div>
         <div class='exam-info'>
         <spam>👨‍🏫<b>Subject</b>: ".$rows["Subject"]." </spam><br>
-        <spam>👨‍🏫<b>Preoid</b>: </spam><br>
+        <spam>👨‍🏫<b>Preoid</b>: ".$rows["peroid"]."  </spam><br>
         <p>📅".$rows["Exam Date"]." </p>
         </div>
-        <button><a class='ah' href='#'>Exam Start</a></button>
+        ".$btn."
         </div>";
     }
-    else if(ucwords($rows["Course"])=="B.tech"){
-       echo"<div class='exam-boxs'>
-        <div class='exam-title'>
-        
-        <spam>👨‍🏫".$rows["Section"]." </spam><br>
-        </div>
-        <div class='exam-info'>
-        <spam>👨‍🏫 </spam><br>
-        <spam>👨‍🏫 </spam><br>
-        <p>📅".$rows["Exam Date"]." </p>
-        </div>
-        <button><a class='ah' href='#'>Exam Start</a></button>
-        </div>";
 
-    }
+  
 }
 ?>
 
 
                 </div>
             </div>
+
+
+             <div class="exam-section">
+                
+                <h4 Style="background-color:lightBlue; padding:4px";>B.TECH</h4>
+                
+                    <?php
+      include_once("dbname.php");
+      $sql= "SELECT * FROM `class_create`";
+      $result =mysqli_query($conn,$sql);
+      while($rows = mysqli_fetch_assoc($result)){
+
+
+    if(ucwords($rows["Course"]) == "B.TECH" || strtolower($rows["Course"]) == "b.tech"){
+         if ($rows["status"] == 1) {
+                $btn1 = "<button><a class='ah' href='create_examRedirect1.php?start=".$rows["Sno"]."'>Started...</a></button>";
+            } else {
+                $btn1 = "<button><a class='ah' href='create_examRedirect.php?start=".$rows["Sno"]."'>Start Exam </a></button>";
+            }
+
+        echo "<div class='exam-boxse'>
+        <div class='exam-title'>
+            <span>Sem: ".$rows["Semester"]."</span><br>
+            <span>👨‍🏫".$rows["Section"]." </span><br>
+        </div>
+        <div class='exam-info'>
+            <span>👨‍🏫<b>Subject</b> ".$rows["Subject"]."</span><br>
+            <span>👨‍🏫<b>Preoid</b> ".$rows["peroid"]."</span><br>
+            <p>📅 ".$rows["Exam Date"]."</p>
+        </div>
+        ".$btn1."
+    </div>
+</div>";
+}
+    }
+?>
 
         </div>
     </div>
