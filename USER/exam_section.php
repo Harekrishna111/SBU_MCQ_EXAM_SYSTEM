@@ -185,8 +185,8 @@ include_once("../admin/dbname.php");
                     
                     <?php
 
-
-$sql = "SELECT * FROM `class_create`";
+$section = $_SESSION['userSection'];
+$sql = "SELECT * FROM `class_create` where `Section`='$section'";
 $result = mysqli_query($conn, $sql);
 
 // if(!$result){
@@ -199,12 +199,13 @@ while($rows = mysqli_fetch_assoc($result)){
 } else {
     $btn = '<button class="ahb"><a >Comming soon...</a></button>';
 }
+$examDate = date("d/m/Y", strtotime($rows['Exam Date']));
 
 echo '
 <div class="exam-box">
     <div class="exam-title">'.$rows['Subject'].'</div>
     <div class="exam-info">
-        <p>📅 Date: '.$rows['Exam Date'].'</p>
+        <p>📅 Date:'.$examDate.'</p>
         <span>👨‍🏫 Teacher: '.$rows["teachers_nam"].'</span><br>
         '.$btn.'
     </div>

@@ -236,7 +236,11 @@ include_once("dbname.php");
 
 
     if(ucwords($rows["Course"]) == "BCA" || strtolower($rows["Course"]) == "bca"){
-
+         if ($rows["status"] == 1) {
+                $btn = "<button><a class='ah' href='create_examRedirect1.php?start=".$rows["Sno"]."'>Started...</a></button>";
+            } else {
+                $btn = "<button><a class='ah' href='create_examRedirect.php?start=".$rows["Sno"]."'>Start Exam </a></button>";
+            }
         echo "<div class='exam-box'>
         <div class='exam-title'>
         
@@ -248,7 +252,7 @@ include_once("dbname.php");
         <spam>👨‍🏫<b>Preoid</b>: ".$rows["peroid"]."  </spam><br>
         <p>📅".$rows["Exam Date"]." </p>
         </div>
-        <button><a class='ah' href='create_examRedirect.php?start=".$rows["Sno"]."'>Exam Start</a></button>
+        ".$btn."
         </div>";
     }
 
@@ -273,6 +277,11 @@ include_once("dbname.php");
 
 
     if(ucwords($rows["Course"]) == "B.TECH" || strtolower($rows["Course"]) == "b.tech"){
+         if ($rows["status"] == 1) {
+                $btn1 = "<button><a class='ah' href='create_examRedirect1.php?start=".$rows["Sno"]."'>Started...</a></button>";
+            } else {
+                $btn1 = "<button><a class='ah' href='create_examRedirect.php?start=".$rows["Sno"]."'>Start Exam </a></button>";
+            }
 
         echo "<div class='exam-boxse'>
         <div class='exam-title'>
@@ -284,7 +293,7 @@ include_once("dbname.php");
             <span>👨‍🏫<b>Preoid</b> ".$rows["peroid"]."</span><br>
             <p>📅 ".$rows["Exam Date"]."</p>
         </div>
-        <button><a class='ah' href='create_examRedirect.php?start=".$rows["Sno"]."'>Exam Start</a></button>
+        ".$btn1."
     </div>
 </div>";
 }

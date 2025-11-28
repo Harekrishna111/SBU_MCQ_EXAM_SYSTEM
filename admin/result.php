@@ -167,7 +167,7 @@ while ($c = mysqli_fetch_assoc($classQuery)) {
       </table>
       
       <div class="link">
-        🔙 <a href="teacher_dashboard.html">Back to Teacher Dashboard</a>
+        🔙 <a href="Exam_start.php">Back to Teacher Dashboard</a>
       </div>
     </div>
     

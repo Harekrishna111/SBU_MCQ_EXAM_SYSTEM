@@ -3,6 +3,10 @@ include_once("../admin/dbname.php");
 
 // Get class id from URL
 $classId = $_GET['classes'];
+$studentId = $_SESSION["userEnroll"];
+
+// REAL STUDENT ID
+
 
 // Fetch class info
 $classSql = "SELECT * FROM class_create WHERE Sno='$classId'";
@@ -78,6 +82,7 @@ $jsQuestions = json_encode($questions);
 <body>
 
 <div class="navbar">
+  <p id="timer" style="font-size:18px; font-weight:bold;"></p>
   <h2><?php echo $classData['Course']; ?> - <?php echo $classData['Subject']; ?></h2>
   <p>Section: <?php echo $classData['Section']; ?> | Sem: <?php echo $classData['Semester']; ?></p>
 </div>
@@ -98,6 +103,7 @@ $jsQuestions = json_encode($questions);
 
   let currentQuestion = 0;
   let selectedAnswers = {};
+  let isSubmitted = false; // prevent double submit
 
   function loadQuestion() {
     const q = questions[currentQuestion];
@@ -111,13 +117,16 @@ $jsQuestions = json_encode($questions);
     optionsDiv.innerHTML = "";
 
     const options = [q.optionA, q.optionB, q.optionC, q.optionD];
+    const optionLetters = ["A", "B", "C", "D"];
 
-    options.forEach(opt => {
+    options.forEach((opt, index) => {
+      const letter = optionLetters[index];
+
       const label = document.createElement("label");
       label.innerHTML = `
-        <input type="radio" name="option" value="${opt}"
-        ${selectedAnswers[currentQuestion] === opt ? "checked" : ""}>
-        ${opt}
+        <input type="radio" name="option" data-option="${letter}"
+          ${selectedAnswers[currentQuestion] === letter ? "checked" : ""}>
+        <strong>${letter}.</strong> ${opt}
       `;
       optionsDiv.appendChild(label);
     });
@@ -133,7 +142,7 @@ $jsQuestions = json_encode($questions);
     const selected = document.querySelector('input[name="option"]:checked');
     if (!selected) return alert("Please select an answer!");
 
-    selectedAnswers[currentQuestion] = selected.value;
+    selectedAnswers[currentQuestion] = selected.dataset.option;
 
     if (currentQuestion < questions.length - 1) {
       currentQuestion++;
@@ -151,6 +160,10 @@ $jsQuestions = json_encode($questions);
   }
 
   function submitAnswersToServer() {
+
+    if (isSubmitted) return;     // 🔥 prevent double submit
+    isSubmitted = true;
+
     let answersToSend = [];
 
     questions.forEach((q, i) => {
@@ -162,7 +175,7 @@ $jsQuestions = json_encode($questions);
     });
 
     const data = {
-        student_id: 101,  
+        student_id: "<?php echo $studentId; ?>",
         class_no: <?php echo $classId; ?>,
         answers: answersToSend
     };
@@ -175,13 +188,60 @@ $jsQuestions = json_encode($questions);
     .then(result => {
         if (result.status === "success") {
             alert("Answers Submitted Successfully!");
-           window.location.href = "submit_success.php";
-
+            window.location.href = "submit_success.php";
         }
     });
   }
 
+  //---------------- TIMER -----------------
+  let timeLeft = 10 * 60;
+
+  function startTimer() {
+    const timerElement = document.getElementById("timer");
+
+    const countdown = setInterval(() => {
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+
+      seconds = seconds < 10 ? "0" : seconds;
+
+      timerElement.textContent = `⏳ Time Left: ${minutes}:${seconds}`;
+
+      if (timeLeft <= 0) {
+        clearInterval(countdown);
+        alert("Time is over! Submitting your exam...");
+        submitAnswersToServer(); // auto-submit
+      }
+
+      timeLeft--;
+    }, 1000);
+  }
+  //----------------------------------------
+
   loadQuestion();
+  startTimer();
+  // Prevent refresh or close
+window.addEventListener("beforeunload", function (e) {
+
+    // Auto-submit answers before closing
+    submitAnswersToServer();
+
+    // Show browser confirm popup
+    e.preventDefault(); 
+    e.returnValue = "Are you sure you want to leave the exam?";
+});
+// Disable F5 and Ctrl+R
+document.addEventListener("keydown", function (e) {
+    if (e.key === "F5" || (e.ctrlKey && e.key === "r")) {
+        e.preventDefault();
+        alert("Exam is running! Refresh is disabled.");
+        submitAnswersToServer(); // Auto-submit
+    }
+});
+document.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+});
+
 </script>
 
 </body>
