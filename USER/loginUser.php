@@ -9,6 +9,8 @@
       font-family: "Poppins", sans-serif;
          background: linear-gradient(135deg, #74ABE2, #5563DE);
     }
+
+    
     .navbar {
       background: #144272;
       color: white;
