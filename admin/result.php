@@ -38,18 +38,40 @@ while ($c = mysqli_fetch_assoc($classQuery)) {
       padding: 0;
       min-height: 100vh;
     }
-    .navbar {
-      color: white;
-      padding: 2px 40px;
-      font-size: 14px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #1565c0;
-    }
-    h2{
-      color: white;
-    }
+     header {
+            background-color: #004aad;
+            color: white;
+            /* padding: 15px 10px; */
+
+            width: 100%;
+            display: flex;
+            position:fixed;
+            z-index: 100;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+          }
+          
+          header h1 {
+            font-size: 24px;
+            letter-spacing: 1px;
+          }
+          
+          nav a {
+            color: white;
+            padding: 15px 10px;
+            text-decoration: none;
+            margin: 0 15px;
+            font-family: sans-serif;
+            font-weight: 500;
+            transition: 0.3s;
+            /* margin-right:70px; */
+        }
+
+        nav a:hover {
+            color: #ffd700;
+        }
+  
     .main_con{
 
       display: flex;
@@ -61,7 +83,7 @@ while ($c = mysqli_fetch_assoc($classQuery)) {
       background: #fff;
       margin-top: 40px;
       padding: 30px;
-      border-radius: 15px;
+      border-radius: 9px;
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
       width: 90%;
       max-width: 900px;
@@ -115,10 +137,18 @@ while ($c = mysqli_fetch_assoc($classQuery)) {
 </head>
 
 <body>
-  <div class="navbar">
-      <h2>MCQ Exam System</h2>
-      <span id="username"></span>
-  </div>
+
+
+     <header>
+        <h1>College MCQ Exam</h1>
+        <nav>
+            <a href="create_class.php">Create Class</a>
+            <a href="Exam_Start.php">Exam Start</a>
+            <a href="result.php">Result</a>
+          
+             </nav>
+</header>
+<br><br><br><br><br><br><br>
   <div class="main_con">
 
     <div class="container">

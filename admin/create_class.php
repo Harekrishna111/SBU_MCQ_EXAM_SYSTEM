@@ -43,14 +43,14 @@ if(!isset($_SESSION["user"])){
           }
           
           nav a {
-            color: white;
-            padding: 15px 10px;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: 500;
-            transition: 0.3s;
-            /* margin-right:70px; */
-        }
+             color: white;
+             padding: 15px 10px;
+             text-decoration: none;
+             margin: 0 15px;
+             font-family: sans-serif;
+             font-weight: 500;
+             transition: 0.3s;
+            }
 
         nav a:hover {
             color: #ffd700;
@@ -303,17 +303,15 @@ if(!isset($_SESSION["user"])){
      <header>
         <h1>College MCQ Exam</h1>
         <nav>
-            <a href="#">Home</a>
-            <a href="#">Activities</a>
-            <a href="#">About</a>
-            <a href="#">Contact</a>
+            <a href="create_class.php">Create Class</a>
+            <a href="Exam_Start.php">Exam Start</a>
+            <a href="result.php">Result</a>
             <!-- <a href="#">Contact</a> -->
-            
-     
-           
-        </nav>
+            <!-- <a href="#">Contact</a> -->
+             </nav>
+</header>
         
-    </header><br><br><br><br><br>
+    <br><br><br><br><br>
   <!-- Left Part: Create Class Form -->
    <div class ="Main_container">
   <div class="left-section">
@@ -354,7 +352,7 @@ if(!isset($_SESSION["user"])){
     <div style="text-algin:end;display:flex;justify-content:space-between;">
 
       <p style="text-align:start; font-size: 16px;"> Welcome  <b> <?php echo ucwords($_SESSION["username"]);?></b></p>
-      <a style="text-align:end; font-size:18px;color:green; text-decoration:none" href="Exam_Start.php"><b>Exam Page 👉</b></a>
+      
     </div>
     <div class="sub_right" style="display:flex;">
     <div class="grid-container">
