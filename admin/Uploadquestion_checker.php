@@ -15,8 +15,8 @@ if($res){
 
 
     // echo 'insert sucessfully';
-    header("Location: Uploadquestion.php?class=1&&msg=Sucessfully Uploaded✅");
-    
+    header("Location: Uploadquestion.php?classes=". $classs." && msg=Sucessfully Uploaded✅");
+     
 }
 else{
     echo 'insert not sucessfully';

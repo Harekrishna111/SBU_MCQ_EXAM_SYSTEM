@@ -26,28 +26,37 @@ include_once("dbname.php");
             padding: 20px;
             color: #fff;
         }
-
-        .navbar {
+         header {
+            background-color: #004aad;
             color: white;
+            /* padding: 15px 10px; */
 
-            font-size: 14px;
+            width: 100%;
             display: flex;
+            position:fixed;
+            z-index: 100;
             justify-content: space-between;
-            background: #1565c0;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+          }
+          
+          header h1 {
+            font-size: 24px;
+            letter-spacing: 1px;
+          }
+          
+          nav a {
+            color: white;
+            padding: 15px 10px;
+            text-decoration: none;
+            margin: 0 15px;
+            font-family: sans-serif;
+            transition: 0.3s;
+            /* margin-right:70px; */
         }
 
-        h2 {
-            text-align: start;
-              margin-left:10px;
-
-        }
-
-        .navbar a {
-            color: yellow;
-            font-size: 16px;
-            font-weight: 200px;
-
-
+        nav a:hover {
+            color: #ffd700;
         }
 
         .BTS {
@@ -55,9 +64,6 @@ include_once("dbname.php");
             width: 64px;
         }
 
-        .navbar a:hover {
-            color: black;
-        }
 
         .sidebar h3 {
             margin-top: 0;
@@ -191,15 +197,17 @@ include_once("dbname.php");
 </head>
 
 <body>
-    <div class="navbar">
-        <h2>MCQ Exam System</h2>
-        <div style="display:flex; margin-top:20px;margin-right:20px;">
+        <header>
+        <h1>College MCQ Exam</h1>
+        <nav>
+            <a href="create_class.php">Create Class</a>
+            <a href="Exam_Start.php">Exam Start</a>
+            <a href="result.php">Result</a>
             <a href="Logout.php"><button style="margin-Right:20px; font-size:13px" class="BTS">Logout</button></a>
-            <a href="result.php"><u>Result Show</u></a>
-
-        </div>
-
-    </div>
+            <!-- <a href="#">Contact</a> -->
+            <!-- <a href="#">Contact</a> -->
+             </nav>
+</header> <br><br><br>
 
     <div style="display: flex;">
 
