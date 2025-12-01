@@ -247,7 +247,7 @@
 
     <!-- Footer -->
     <footer>
-        © 2025 College MCQ Exam System | Designed by Suraj
+        © 2025 College MCQ Exam System | Designed by Team outliner
     </footer>
 
 </body>

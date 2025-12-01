@@ -62,6 +62,7 @@ include_once("dbname.php");
         .BTS {
             margin-right: -6px;
             width: 64px;
+            
         }
 
 
@@ -157,22 +158,40 @@ include_once("dbname.php");
             margin-bottom: 5px;
         }
 
-        button {
+        button{
             width: 30%;
             padding: 8px;
             border: none;
             border-radius: 8px;
-            background-color: #717deeff;
+            background-color: #23c038ff;
             color: #fff;
             font-size: 7px;
             transition: 0.3s;
             cursor: pointer;
         }
+         button , .BTS {
+            width: 30%;
+            padding: 8px;
+            border: none;
+             margin-right: -6px;
+            width: 64px;
+             border-radius: 8px;
+            background-color: #c05723ff;
+            color: #fff;
+            font-size: 7px;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .BTS{
+            background-color: red !important;
+        }
+      
 
         .ah {
             text-decoration: none;
             font-size: 12px;
             color: white;
+            
         }
         .spam{
      color: #055d1bff;
