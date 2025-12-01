@@ -7,6 +7,8 @@ $N_password=  md5($_POST["password"]);
 $NC_password= md5($_POST["confirm"]);
 
 
+
+
 $sql_checker="SELECT * FROM `adacc` WHERE `email`='$Eamil'";
 $sql_checkrun = mysqli_query($conn,$sql_checker);
 $sql_res = mysqli_num_rows($sql_checkrun);
