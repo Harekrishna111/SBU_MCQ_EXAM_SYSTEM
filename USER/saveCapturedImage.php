@@ -13,3 +13,5 @@ file_put_contents($filename, $image);
 
 echo json_encode(["status" => "saved", "file" => $filename]);
 ?>
+
+

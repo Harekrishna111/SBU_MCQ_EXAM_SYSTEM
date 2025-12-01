@@ -22,14 +22,4 @@ else{
     echo 'insert not sucessfully';
     // header("Location: Uploadquestion.php?msg= Uploaded Faild!!❌");
 }
-
-
-
-
-
-
-
-
-
-
 ?>
