@@ -191,6 +191,7 @@ include_once("dbname.php");
             text-decoration: none;
             font-size: 12px;
             color: white;
+            
         }
         .spam{
      color: #055d1bff;

@@ -31,6 +31,9 @@ $jsQuestions = json_encode($questions);
 <head>
   <meta charset="UTF-8">
   <title><?php echo $classData['Subject']; ?> | Exam</title>
+<!-- Teachable Machine Library -->
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.9.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8/dist/teachablemachine-image.min.js"></script>
 
   <style>
     body {
@@ -80,6 +83,8 @@ $jsQuestions = json_encode($questions);
 </head>
 
 <body>
+<video id="webcam" width="200" height="150" autoplay playsinline style="display:none;"></video>
+<canvas id="captureCanvas" width="200" height="150" style="display:none;"></canvas>
 
 <div class="navbar">
   <p id="timer" style="font-size:18px; font-weight:bold;"></p>
@@ -221,26 +226,110 @@ $jsQuestions = json_encode($questions);
   loadQuestion();
   startTimer();
   // Prevent refresh or close
-window.addEventListener("beforeunload", function (e) {
+// window.addEventListener("beforeunload", function (e) {
 
-    // Auto-submit answers before closing
-    submitAnswersToServer();
+//     // Auto-submit answers before closing
+//     submitAnswersToServer();
 
-    // Show browser confirm popup
-    e.preventDefault(); 
-    e.returnValue = "Are you sure you want to leave the exam?";
-});
-// Disable F5 and Ctrl+R
-document.addEventListener("keydown", function (e) {
-    if (e.key === "F5" || (e.ctrlKey && e.key === "r")) {
-        e.preventDefault();
-        alert("Exam is running! Refresh is disabled.");
-        submitAnswersToServer(); // Auto-submit
+//     // Show browser confirm popup
+//     e.preventDefault(); 
+//     e.returnValue = "Are you sure you want to leave the exam?";
+// });
+// // Disable F5 and Ctrl+R
+// document.addEventListener("keydown", function (e) {
+//     if (e.key === "F5" || (e.ctrlKey && e.key === "r")) {
+//         e.preventDefault();
+//         alert("Exam is running! Refresh is disabled.");
+//         submitAnswersToServer(); // Auto-submit
+//     }
+// });
+// document.addEventListener("contextmenu", function (e) {
+//     e.preventDefault();
+// });
+// ------------------- TEACHABLE MACHINE MODEL -------------------
+const modelURL = "model/model.json"; 
+const metadataURL = "model/metadata.json";
+
+let model, webcam;
+let notAttentiveCount = 0;
+let continuousNotAttentive = 0;
+let alertShown = false;
+
+// Load model + webcam
+async function initAttentiveSystem() {
+    model = await tmImage.load(modelURL, metadataURL);
+
+    webcam = new tmImage.Webcam(200, 150, true); 
+    await webcam.setup();
+    await webcam.play();
+    document.getElementById("webcam").srcObject = webcam.stream;
+
+    window.requestAnimationFrame(loop);
+}
+
+async function loop() {
+    webcam.update();
+    await predict();
+    window.requestAnimationFrame(loop);
+}
+
+async function predict() {
+    const prediction = await model.predict(webcam.canvas);
+// console.log(prediction)
+    let attentiveValue = prediction.find(p => p.className === "attentive");
+    let notAttentiveValue = prediction.find(p => p.className === "Not_attentive");
+
+    // Check if student is NOT attentive
+    if (notAttentiveValue.probability > 0.50) {
+        continuousNotAttentive++;
+        console.log(continuousNotAttentive);
+        // 5 seconds = approx 5 frames * 30fps ≈ 150 predictions
+        if (continuousNotAttentive > 20 && !alertShown) {
+            alert("⚠ Warning: You are not attentive for 5 seconds!");
+            console.log("check_1");
+
+            notAttentiveCount++;
+            alertShown = true;
+
+            continuousNotAttentive = 0;
+
+            // If 3 times → capture photo
+            if (notAttentiveCount >= 3) {
+                captureImage();
+            }
+
+            setTimeout(() => { alertShown = false; }, 2000);
+        }
+    } else {
+        continuousNotAttentive = 0;
     }
-});
-document.addEventListener("contextmenu", function (e) {
-    e.preventDefault();
-});
+}
+
+// ------------------- CAPTURE IMAGE -------------------
+function captureImage() {
+    const canvas = document.getElementById("captureCanvas");
+    const ctx = canvas.getContext("2d");
+
+    // Draw from Teachable Machine Webcam (NOT the <video> tag!)
+    ctx.drawImage(webcam.canvas, 0, 0, canvas.width, canvas.height);
+
+    const imageData = canvas.toDataURL("image/png");
+
+    fetch("saveCapturedImage.php", {
+        method: "POST",
+        body: JSON.stringify({
+            student_id: "<?php echo $studentId; ?>",
+            class_id: "<?php echo $classId; ?>",
+            image: imageData
+        })
+    })
+    .then(res => res.json())
+    .then(r => console.log("Captured image saved", r));
+}
+
+
+// Start the model system
+initAttentiveSystem();
 
 </script>
 
